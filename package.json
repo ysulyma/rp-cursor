@@ -1,8 +1,8 @@
 {
   "name": "rp-cursor",
   "version": "1.0.0",
-  "description": "State recorder and replayer for ractive-player/ractive-editor",
-  "main": "index.js",
+  "description": "Cursor recorder and replayer for ractive-player/ractive-editor",
+  "main": "Cursor.tsx",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -22,5 +22,15 @@
   "peerDependencies": {
     "ractive-editor": "^1.0.0",
     "ractive-player": "^1.0.2"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.3",
+    "@typescript-eslint/eslint-plugin": "^2.3.1",
+    "@typescript-eslint/parser": "^2.3.1",
+    "eslint": "^6.5.0",
+    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^2.1.1",
+    "react": "^16.10.1",
+    "typescript": "^3.6.3"
   }
 }

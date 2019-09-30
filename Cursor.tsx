@@ -1,9 +1,8 @@
 import * as React from "react";
 
-import Player from "./Player";
-
-import {replay, ReplayData} from "./utils/animation";
-import {between} from "./utils/misc";
+import {Player, Utils, ReplayData} from "ractive-player";
+const {replay} = Utils.animation,
+      {between} = Utils.misc;
 
 interface Props {
   src: string;
@@ -12,63 +11,54 @@ interface Props {
   replay: ReplayData<[number, number]>;
 }
 
-export default class Cursor extends React.PureComponent<Props> {
-  private domElement: HTMLImageElement;
-  private start: number;
-  private end: number;
+export default function Cursor(props: Props) {
+  const {playback, script} = React.useContext(Player.Context);
+  const ref = React.useRef<HTMLImageElement>();
 
-  static contextType = Player.Context;
-  private player: Player;
+  const start = (typeof props.start === "number") ? props.start : script.markerByName(props.start)[1],
+        end = (typeof props.end === "number") ? props.end : script.markerByName(props.end)[1];
 
-  constructor(props: Props, context: Player) {
-    super(props, context);
-    this.player = context;
-    const {script} = this.player;
-
-    this.start = (typeof props.start === "number") ? props.start : script.markerByName(props.start)[1];
-    this.end = (typeof props.end === "number") ? props.end : script.markerByName(props.end)[1];
-  }
-
-  componentDidMount() {
-    const {playback} = this.player;
-
-    const {display} = this.domElement.style;
-    this.domElement.style.display = "block";
-    const {height, width} = this.domElement.getBoundingClientRect();
-    this.domElement.style.display = display;
+  React.useEffect(() => {
+    // measure image
+    const {display} = ref.current.style;
+    ref.current.style.display = "block";
+    const {height, width} = ref.current.getBoundingClientRect();
+    ref.current.style.display = display;
 
     const update = replay({
-      data: this.props.replay,
-      start: this.start,
-      end: this.end,
+      data: props.replay,
+      start,
+      end,
       active: (([x, y]) => {
-        Object.assign(this.domElement.style, {
+        Object.assign(ref.current.style, {
           display: "block",
           left: `calc(${x}% - ${width/2}px)`,
           top: `calc(${y}% - ${height/2}px)`
         });
       }),
       inactive: () => {
-        this.domElement.style.display = "none";
+        ref.current.style.display = "none";
       },
       compressed: true
     });
 
-    playback.hub.on("seek", () => update(playback.currentTime));
+    playback.hub.on("seek", update);
     playback.hub.on("timeupdate", update);
 
     update(playback.currentTime);
-  }
 
-  render() {
-    const {playback} = this.player;
-
-    const style = {
-      display: between(this.start, playback.currentTime, this.end) ? "block" : "none"
+    return () => {
+      playback.hub.off("seek", update);
+      playback.hub.off("timeupdate", update);
     };
+  }, [ref.current]);
 
-    return (
-      <img className="rp-cursor" ref={(node) => {this.domElement = node;}} src={this.props.src} style={style}/>
-    );
-  }
+  const style: React.CSSProperties = between(start, playback.currentTime, end) ? {} : {
+    opacity: 0,
+    pointerEvents: "none"
+  };
+
+  return (
+    <img className="rp-cursor" ref={ref} src={props.src} style={style}/>
+  );
 }

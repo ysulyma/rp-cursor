@@ -1,16 +1,13 @@
 import * as React from "react";
 
-import {Recorder, RecorderPlugin, RecorderConfigureComponent} from "../recorder";
-
-import {$, $$} from "../utils/dom";
-import {on, off} from "../utils/events";
-
 import {Player, Utils, ReplayData} from "ractive-player";
 const {bind} = Utils.misc;
 
+import {Recorder, RecorderPlugin, RecorderConfigureComponent} from "ractive-editor";
+
 type Path = ReplayData<[number, number]>;
 
-export class CursorRecorder implements Recorder {
+class CursorRecorder implements Recorder {
   private captureData: Path;
 
   private captureStart: number;
@@ -38,7 +35,7 @@ export class CursorRecorder implements Recorder {
     this.paused = false;
     this.recording = true;
 
-    on(document.body, "mousemove", this.captureMouse);
+    document.body.addEventListener("mousemove", this.captureMouse);
   }
 
   pauseRecording(time: number) {
@@ -54,7 +51,7 @@ export class CursorRecorder implements Recorder {
   endRecording() {
     this.recording = false;
 
-    off(document.body, "mousemove", this.captureMouse);
+    document.body.removeEventListener("mousemove", this.captureMouse);
   }
 
   finalizeRecording(startDelay: number) {
@@ -93,7 +90,7 @@ export class CursorRecorder implements Recorder {
   }
 }
 
-export class CursorConfigureComponent extends RecorderConfigureComponent {
+class CursorConfigureComponent extends RecorderConfigureComponent {
   render() {
     const classNames = ["recorder-plugin-icon"];
 
@@ -118,7 +115,7 @@ export class CursorConfigureComponent extends RecorderConfigureComponent {
   }
 }
 
-export function CursorSaveComponent(props: {data: Path}) {
+function CursorSaveComponent(props: {data: Path}) {
   return (
     <>
       <th key="head" scope="row">
@@ -134,33 +131,12 @@ export function CursorSaveComponent(props: {data: Path}) {
   );
 }
 
-export const CursorRecorderPlugin = {
+export default {
   name: "CursorRecorder",
   recorder: CursorRecorder,
   configureComponent: CursorConfigureComponent,
   saveComponent: CursorSaveComponent
-};
-
-// stupid helper function
-function offsetParent(node: HTMLElement) {
-  if (node.offsetLeft !== undefined && node.offsetTop !== undefined) return { left: node.offsetLeft, top: node.offsetTop };
-
-  const rect = node.getBoundingClientRect();
-
-  let parent = node;
-  while (parent = (parent.parentNode as HTMLElement)) {
-    if (parent.nodeName.toLowerCase() === "main") {
-      console.log("MAIN");
-    }
-    if (!["absolute", "relative"].includes(getComputedStyle(parent).position)) continue;
-
-    const prect = parent.getBoundingClientRect();
-
-    return { left: rect.left - prect.left, top: rect.top - prect.top };
-  }
-
-  return { left: rect.left, top: rect.top };
-}
+} as RecorderPlugin;
 
 function formatNum(x: number): number {
   return parseFloat(x.toFixed(2));
