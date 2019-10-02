@@ -17,7 +17,7 @@ Editor.addRecorder(CursorRecorderPlugin);
 ```
 
 Component usage:
-```ts
+```tsx
 import Cursor from "rp-cursor";
 
 // produced by the recorder
