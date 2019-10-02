@@ -31,13 +31,13 @@ export default function Cursor(props: Props) {
       end,
       active: (([x, y]) => {
         Object.assign(ref.current.style, {
-          display: "block",
+          opacity: 1,
           left: `calc(${x}% - ${width/2}px)`,
           top: `calc(${y}% - ${height/2}px)`
         });
       }),
       inactive: () => {
-        ref.current.style.display = "none";
+        ref.current.style.opacity = "0";
       },
       compressed: true
     });
@@ -53,10 +53,10 @@ export default function Cursor(props: Props) {
     };
   }, [ref.current]);
 
-  const style: React.CSSProperties = between(start, playback.currentTime, end) ? {} : {
-    opacity: 0,
-    pointerEvents: "none"
-  };
+  const style: React.CSSProperties = {pointerEvents: "none"};
+
+  if (between(start, playback.currentTime, end))
+    style.opacity = 0;
 
   return (
     <img className="rp-cursor" ref={ref} src={props.src} style={style}/>
