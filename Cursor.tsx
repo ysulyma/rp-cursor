@@ -53,7 +53,7 @@ export default function Cursor(props: Props) {
     };
   }, [ref.current]);
 
-  const style: React.CSSProperties = {pointerEvents: "none"};
+  const style: React.CSSProperties = {pointerEvents: "none", position: "absolute"};
 
   if (between(start, playback.currentTime, end))
     style.opacity = 0;
