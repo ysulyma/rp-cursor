@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import {Player, Utils, ReplayData} from "ractive-player";
+import {Utils, ReplayData, usePlayer} from "ractive-player";
 const {replay} = Utils.animation,
       {between} = Utils.misc;
 
@@ -12,11 +12,11 @@ interface Props {
 }
 
 export default function Cursor(props: Props) {
-  const {playback, script} = React.useContext(Player.Context);
+  const {playback, script} = usePlayer();
   const ref = React.useRef<HTMLImageElement>();
 
-  const start = (typeof props.start === "number") ? props.start : script.markerByName(props.start)[1],
-        end = (typeof props.end === "number") ? props.end : script.markerByName(props.end)[1];
+  const start = script.parseStart(props.start),
+        end = script.parseEnd(props.end);
 
   React.useEffect(() => {
     // measure image
