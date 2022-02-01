@@ -1,6 +1,6 @@
 # rp-cursor
 
-Cursor replaying/recording for [ractive-player](https://github.com/ysulyma/ractive-player)/[ractive-editor](https://github.com/ysulyma/ractive-editor/)
+Cursor replaying/recording for [Liqvid](https://liqvidjs.org).
 
 ## Installation
 
@@ -11,7 +11,7 @@ Cursor replaying/recording for [ractive-player](https://github.com/ysulyma/racti
 To record:
 
 ```ts
-import {Player} from "ractive-player";
+import {Player} from "liqvid";
 import {RecordingControl} from "rp-recording";
 import CursorRecorderPlugin from "rp-cursor/recorder";
 
