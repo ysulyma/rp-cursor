@@ -19,9 +19,9 @@
     "url": "git+https://github.com/ysulyma/rp-cursor.git"
   },
   "keywords": [
-    "ractive-player"
+    "liqvid"
   ],
-  "author": "Yuri Sulyma <yuri@ractive-player.org>",
+  "author": "Yuri Sulyma <yuri@liqvidjs.org>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ysulyma/rp-cursor/issues"

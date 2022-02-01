@@ -1,5 +1,5 @@
 import * as React from "react";
-import {ReplayData} from "ractive-player";
+import {ReplayData} from "liqvid";
 
 interface Props {
   src: string;

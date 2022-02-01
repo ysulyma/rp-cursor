@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import {Utils} from "ractive-player";
+import {Utils} from "liqvid";
 const {bind} = Utils.misc;
-import type {ReplayData} from "ractive-player";
+import type {ReplayData} from "liqvid";
 
 import {ReplayDataRecorder} from "rp-recording";
 import type {RecorderPlugin} from "rp-recording";
