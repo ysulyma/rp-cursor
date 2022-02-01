@@ -1,41 +1,48 @@
-import * as React from "react";
+import {Utils, ReplayData, usePlayer} from "liqvid";
+import {useEffect, useRef} from "react";
 
-import {Utils, ReplayData, usePlayer} from "ractive-player";
-const {replay} = Utils.animation,
-      {between} = Utils.misc;
+import {replay} from "@liqvid/utils/animation";
+import {between} from "@liqvid/utils/misc";
 
-interface Props {
+export default function Cursor(props: {
+  align?: "center" | [number, number];
   src: string;
   start: number | string;
   end: number | string;
   replay: ReplayData<[number, number]>;
-}
-
-export default function Cursor(props: Props) {
+}) {
   const {playback, script} = usePlayer();
-  const ref = React.useRef<HTMLImageElement>();
+  const ref = useRef<HTMLImageElement>();
 
   const start = script.parseStart(props.start),
         end = script.parseEnd(props.end);
 
-  React.useEffect(() => {
+  useEffect(() => {
     // measure image
-    const {display} = ref.current.style;
-    ref.current.style.display = "block";
-    const {height, width} = ref.current.getBoundingClientRect();
-    ref.current.style.display = display;
+    let height = 0, width = 0;
+
+    ref.current.addEventListener("load", () => {
+      const {display} = ref.current.style;
+      ref.current.style.display = "block";
+
+      const rect = ref.current.getBoundingClientRect();
+      height = rect.height;
+      width = rect.width;
+
+      ref.current.style.display = display;
+    });
 
     const update = replay({
       data: props.replay,
       start,
       end,
-      active: (([x, y]) => {
+      active: ([x, y]) => {
         Object.assign(ref.current.style, {
           opacity: 1,
           left: `calc(${x}% - ${width/2}px)`,
           top: `calc(${y}% - ${height/2}px)`
         });
-      }),
+      },
       inactive: () => {
         ref.current.style.opacity = "0";
       },

@@ -68,5 +68,6 @@ export default {
 } as RecorderPlugin;
 
 function formatNum(x: number): number {
-  return parseFloat(x.toFixed(3));
+  return x;
+  // return parseFloat(x.toFixed(3));
 }

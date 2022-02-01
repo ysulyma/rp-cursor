@@ -1,14 +1,18 @@
 {
   "compilerOptions": {
     "alwaysStrict": true,
-    "jsx": "react",
+    "declaration": true,
+    "declarationDir": "./dist",
+    "incremental": true,
+    "jsx": "react-jsx",
     "lib": ["es2015", "es2016", "es2017", "dom"],
     "moduleResolution": "node",
     "noImplicitAny": true,
+    "outDir": "./dist",
     "pretty": true,
     "removeComments": true,
     "suppressImplicitAnyIndexErrors": true,
     "target": "ES2017"
   },
-  "files": ["./src/Cursor.tsx", "./src/recorder.tsx", "./rp-cursor.d.ts", "./recorder.d.ts"]
+  "files": ["./src/index.tsx", "./src/recorder.tsx"]
 }

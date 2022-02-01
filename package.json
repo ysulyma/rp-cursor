@@ -1,27 +1,29 @@
 {
   "name": "rp-cursor",
-  "version": "2.0.0",
-  "description": "Cursor recorder and replayer for ractive-player/ractive-editor",
+  "version": "2.1.0",
+  "description": "Cursor recorder and replayer for Liqvid",
   "exports": {
-    ".": "./rp-cursor.js",
-    "./recorder": "./rp-cursor.recorder.js"
+    ".": "./dist/index.js",
+    "./recorder": "./dist/recorder.js"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*"
+      ]
+    }
   },
   "files": [
-    "rp-cursor.js",
-    "rp-cursor.recorder.js",
-    "rp-cursor.d.ts",
-    "recorder.d.ts"
+    "dist/*"
   ],
-  "main": "rp-cursor.js",
-  "typings": "rp-cursor.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ysulyma/rp-cursor.git"
   },
   "keywords": [
-    "ractive-player"
+    "liqvid"
   ],
-  "author": "Yuri Sulyma <yuri@ractive-player.org>",
+  "author": "Yuri Sulyma <yuri@liqvidjs.org>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ysulyma/rp-cursor/issues"
@@ -29,8 +31,8 @@
   "homepage": "https://github.com/ysulyma/rp-cursor#readme",
   "peerDependencies": {
     "@types/react": "^17.0.0",
-    "rp-recording": "^2.0.0",
-    "ractive-player": "^2.0.1"
+    "liqvid": "^2.0.10",
+    "rp-recording": "^2.0.0"
   },
   "devDependencies": {
     "@types/react": "^17.0.0",
@@ -44,5 +46,8 @@
     "typescript": "^4.1.3",
     "webpack": "^5.15.0",
     "webpack-cli": "^4.3.1"
+  },
+  "dependencies": {
+    "@liqvid/utils": "^0.0.1"
   }
 }
